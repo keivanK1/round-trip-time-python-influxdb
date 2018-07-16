@@ -1,6 +1,7 @@
 import socket
 import threading
 import sys
+import datetime
 
 class Client:
   soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # make TCP connection on IPv4
@@ -16,13 +17,21 @@ class Client:
 
     while True:
       data = self.soc.recv(self.buffSize)
+      rcvTime = datetime.datetime.now()
       if not data:
         break
-      print(data)
+      #print(datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f'))
+      print((rcvTime - datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f')).total_seconds())
 
   def sendMessage(self):
     while True:
-      self.soc.send(bytes(input(""), 'utf-8'))
+      
+      msg = input("")
+      # tes = datetime.datetime.now().time()
+      # print(tes)
+      #self.soc.send(bytes(input(""), 'utf-8'))
+      self.soc.send(bytes(str(datetime.datetime.now()), 'utf-8'))
+      #self.soc.send(bytes(str(datetime.datetime.now().time()) + " ;;" + input(""), 'utf-8'))
 
 if(len(sys.argv) > 1):
   client = Client(sys.argv[1])
