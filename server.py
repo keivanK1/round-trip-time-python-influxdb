@@ -4,7 +4,7 @@ import threading
 class Server:
   soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # make TCP connection on IPv4
   ip = '0.0.0.0'            # in order to get the ip of server
-  port = 80
+  port = 800
   connections = []
   buffSize = 1024
   
@@ -30,7 +30,7 @@ class Server:
       th.daemon = True
       th.start()
       self.connections.append(conn)
-      print (self.connections)
+      #print (self.connections)
 
 server = Server()
 server.runServer()

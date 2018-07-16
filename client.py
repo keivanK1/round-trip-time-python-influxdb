@@ -5,7 +5,7 @@ import datetime
 
 class Client:
   soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # make TCP connection on IPv4
-  port = 31379
+  port = 800
   buffSize = 1024
   
   def __init__(self, ip):
