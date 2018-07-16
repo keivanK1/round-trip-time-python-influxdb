@@ -5,6 +5,7 @@ import sys
 class Client:
   soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # make TCP connection on IPv4
   port = 800
+  buffSize = 1024
   
   def __init__(self, ip):
     self.ip = ip
@@ -14,7 +15,7 @@ class Client:
     sendTh.start()
 
     while True:
-      data = self.soc.recv(1024)
+      data = self.soc.recv(self.buffSize)
       if not data:
         break
       print(data)
@@ -25,3 +26,5 @@ class Client:
 
 if(len(sys.argv) > 1):
   client = Client(sys.argv[1])
+else:
+  print("Please provide the IP of server!")

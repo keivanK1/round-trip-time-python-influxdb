@@ -3,9 +3,10 @@ import threading
 
 class Server:
   soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # make TCP connection on IPv4
-  ip = '0.0.0.0'
+  ip = '0.0.0.0'            # in order to get the ip of server
   port = 800
   connections = []
+  buffSize = 1024
   
   def __init__(self):    
     self.soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -14,7 +15,7 @@ class Server:
 
   def connHandle(self, conn, client):
     while True:
-      data = conn.recv(1024)
+      data = conn.recv(self.buffSize)
       for connection in self.connections:
         connection.send(bytes(data))
       if not data:
