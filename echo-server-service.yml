@@ -8,7 +8,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port:  800
+  - port:  80
     targetPort: 5000
   selector:
     name: echo-server-pod

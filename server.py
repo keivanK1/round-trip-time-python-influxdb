@@ -4,7 +4,7 @@ import threading
 class Server:
   soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # make TCP connection on IPv4
   ip = '0.0.0.0'            # in order to get the ip of server
-  port = 800
+  port = 80
   connections = []
   buffSize = 1024
   
