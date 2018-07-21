@@ -11,17 +11,18 @@ class Client:
   def __init__(self, ip):
     self.ip = ip
     self.soc.connect((self.ip, self.port))
-    sendTh = threading.Thread(target=self.sendMessage)
-    sendTh.daemon = True
-    sendTh.start()
+    #sendTh = threading.Thread(target=self.sendMessage)
+    #sendTh.daemon = True
+    #sendTh.start()
 
     while True:
       data = self.soc.recv(self.buffSize)
       rcvTime = datetime.datetime.now()
       if not data:
         break
-      #print(datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f'))
-      print((rcvTime - datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f')).total_seconds())
+      self.soc.send(bytes(data))
+      ##print(datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f'))
+      #print((rcvTime - datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f')).total_seconds())
 
   def sendMessage(self):
     while True:

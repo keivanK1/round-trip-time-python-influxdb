@@ -1,5 +1,7 @@
 import socket
 import threading
+import time
+import datetime
 
 class Server:
   soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # make TCP connection on IPv4
@@ -16,12 +18,14 @@ class Server:
   def connHandle(self, conn, client):
     while True:
       data = conn.recv(self.buffSize)
-      for connection in self.connections:
-        connection.send(bytes(data))
+      #for connection in self.connections:
+      #  connection.send(bytes(data))
       if not data:
         self.connections.remove(conn)
         conn.close()
         break
+      else:
+        print((rcvTime - datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f')).total_seconds())
 
   def runServer(self):
     while True:
@@ -29,6 +33,7 @@ class Server:
       th = threading.Thread(target=self.connHandle, args=(conn, client))
       th.daemon = True
       th.start()
+      self.soc.send(bytes(str(datetime.datetime.now()), 'utf-8'))
       self.connections.append(conn)
       #print (self.connections)
 
