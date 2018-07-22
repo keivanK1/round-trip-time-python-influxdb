@@ -20,6 +20,7 @@ class Server:
       data = conn.recv(self.buffSize)
       #for connection in self.connections:
       #  connection.send(bytes(data))
+      rcvTime = datetime.datetime.now()
       if not data:
         self.connections.remove(conn)
         conn.close()
@@ -33,7 +34,7 @@ class Server:
       th = threading.Thread(target=self.connHandle, args=(conn, client))
       th.daemon = True
       th.start()
-      self.soc.send(bytes(str(datetime.datetime.now()), 'utf-8'))
+      conn.send(bytes(str(datetime.datetime.now()), 'utf-8'))
       self.connections.append(conn)
       #print (self.connections)
 

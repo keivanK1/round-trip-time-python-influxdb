@@ -17,7 +17,7 @@ class Client:
 
     while True:
       data = self.soc.recv(self.buffSize)
-      rcvTime = datetime.datetime.now()
+      #rcvTime = datetime.datetime.now()
       if not data:
         break
       self.soc.send(bytes(data))
