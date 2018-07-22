@@ -4,7 +4,7 @@ import time
 import datetime
 from influxdb import InfluxDBClient
 import json
-from http.server import BaseHTTPRequestHandler, HTTPServer
+#from http.server import BaseHTTPRequestHandler, HTTPServer
 
 class Server:
   soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # make TCP connection on IPv4
@@ -13,7 +13,6 @@ class Server:
   connections = []
   buffSize = 1024
 
-  
   def __init__(self):
     self.infdb = InfluxDBClient(host='localhost', port=8086)
     self.dblist = self.infdb.get_list_database()
@@ -87,7 +86,6 @@ class Server:
         self.infdb.create_database('iiot')
         self.infdb.switch_database('iiot')
         print("Influxdb with name iiot created...")
-
 
 class httpServer(BaseHTTPRequestHandler):
 
