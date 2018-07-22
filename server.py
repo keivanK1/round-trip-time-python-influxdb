@@ -32,7 +32,7 @@ class Server:
         break
       else:
         #print((tempTime - datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f')).total_seconds())
-        print((tempTime - self.sendTime).total_seconds())
+        print(str(conn) + " : " + (tempTime - self.sendTime).total_seconds())
         self.rcvTime = tempTime
 
   def checkLatency(self):
