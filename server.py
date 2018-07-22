@@ -17,6 +17,7 @@ class Server:
     self.soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     self.soc.bind((self.ip, self.port))
     self.soc.listen(1)
+    self.sendTime
     
   def connHandle(self, conn, client):
     while True:
@@ -29,14 +30,16 @@ class Server:
         conn.close()
         break
       else:
-        #self.rcvTime = tempTime
-        print((tempTime - datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f')).total_seconds())
+        #print((tempTime - datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f')).total_seconds())
+        print((tempTime - self.sendTime).total_seconds())
+        self.rcvTime = tempTime
 
   def checkLatency(self):
     while True:
       time.sleep(3)
       for conn in self.connections:
-        conn.send(bytes(str(datetime.datetime.now()), 'utf-8'))
+        self.sendTime = datetime.datetime.now()
+        conn.send(bytes(str(""), 'utf-8'))
         #conn.send(bytes(str(datetime.datetime.now()), 'utf-8'))
       
   def runServer(self):
