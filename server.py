@@ -40,16 +40,16 @@ class Server:
         print(index , " : " , latency)
         json_body = [
           {
-              "measurement": "cpu_load_short",
+              "measurement": "latency",
               "tags": {
-                  "host": "server01",
-                  "region": "us-west"
+                  "host": "aws",
+                  "region": "eu-central"
               },
-              "time": "2009-11-10T23:00:00Z",
+              "time": datetime.datetime.now(),
               "fields": {
-                  "Float_value": 0.64,
+                  "Float_value": latency,
                   "Int_value": 3,
-                  "String_value": "Text",
+                  "String_value": "iiot",
                   "Bool_value": True
               }
           }
