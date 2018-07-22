@@ -18,7 +18,7 @@ class Server:
     self.soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     self.soc.bind((self.ip, self.port))
     self.soc.listen(1)
-    self.sendTime
+    self.sendTime = datetime.datetime.now()
     
   def connHandle(self, conn, client):
     while True:
@@ -82,18 +82,17 @@ class httpServer(BaseHTTPRequestHandler):
     return
 
 def httpRun():
+  serverIPPort = ('0.0.0.0', 8081)
+  httpd = HTTPServer(serverIPPort, httpServer)
+  print('HTTP running server...')
   httpd.serve_forever()
   
 def initialServer():
   print('starting HTTP Server...')
-  serverIPPort = ('0.0.0.0', 8081)
-  httpd = HTTPServer(serverIPPort, httpServer)
-  print('HTTP running server...')
   thHTTP = threading.Thread(target=httpRun)
-  thLatency.daemon = True
-  thLatency.start()
+  thHTTP.daemon = True
+  thHTTP.start()
   
-
   print('starting TCP Server...')
   server = Server()
   server.runServer()
