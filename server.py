@@ -16,7 +16,7 @@ class Server:
   
   def __init__(self):
     self.infdb = InfluxDBClient(host='localhost', port=8086)
-    self.dblist = infdb.get_list_database()
+    self.dblist = self.infdb.get_list_database()
     self.checkInfluxdb()
     self.soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     self.soc.bind((self.ip, self.port))
@@ -38,9 +38,23 @@ class Server:
         #print((tempTime - datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f')).total_seconds())
         latency = (tempTime - self.sendTime).total_seconds()
         print(index , " : " , latency)
-        data = [{'client': conn,
-                'latency': latency}]
-        infdb.write_points(data)
+        json_body = [
+          {
+              "measurement": "cpu_load_short",
+              "tags": {
+                  "host": "server01",
+                  "region": "us-west"
+              },
+              "time": "2009-11-10T23:00:00Z",
+              "fields": {
+                  "Float_value": 0.64,
+                  "Int_value": 3,
+                  "String_value": "Text",
+                  "Bool_value": True
+              }
+          }
+        ]
+        self.infdb.write_points(json_body)
         self.rcvTime = tempTime
 
   def checkLatency(self):
