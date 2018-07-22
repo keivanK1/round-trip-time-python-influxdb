@@ -81,12 +81,18 @@ class httpServer(BaseHTTPRequestHandler):
     self.wfile.write(bytes(message, "utf8"))
     return
 
+def httpRun():
+  httpd.serve_forever()
+  
 def initialServer():
   print('starting HTTP Server...')
   serverIPPort = ('0.0.0.0', 8081)
-  httpd = HTTPServer(server_address, testHTTPServer_RequestHandler)
+  httpd = HTTPServer(serverIPPort, httpServer)
   print('HTTP running server...')
-  httpd.serve_forever()
+  thHTTP = threading.Thread(target=httpRun)
+  thLatency.daemon = True
+  thLatency.start()
+  
 
   print('starting TCP Server...')
   server = Server()
