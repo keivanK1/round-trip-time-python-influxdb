@@ -4,6 +4,7 @@ import time
 import datetime
 from influxdb import InfluxDBClient
 import json
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 class Server:
   soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # make TCP connection on IPv4
@@ -39,7 +40,7 @@ class Server:
       time.sleep(3)
       for conn in self.connections:
         self.sendTime = datetime.datetime.now()
-        conn.send(bytes(str(""), 'utf-8'))
+        conn.send(bytes(str('a'), 'utf-8'))
         #conn.send(bytes(str(datetime.datetime.now()), 'utf-8'))
       
   def runServer(self):
@@ -67,5 +68,28 @@ class Server:
         infdb.switch_database('iiot')
         print("Influxdb with name iiot created...")
 
-server = Server()
-server.runServer()
+
+class httpServer(BaseHTTPRequestHandler):
+
+  # GET Method
+  def do_GET(self):
+    self.send_response(200)
+    self.send_header('Content-type','text/html')
+    self.end_headers()
+    message = "Hello world!"
+    # Write content as utf-8 data
+    self.wfile.write(bytes(message, "utf8"))
+    return
+
+def initialServer():
+  print('starting HTTP Server...')
+  serverIPPort = ('0.0.0.0', 8081)
+  httpd = HTTPServer(server_address, testHTTPServer_RequestHandler)
+  print('HTTP running server...')
+  httpd.serve_forever()
+
+  print('starting TCP Server...')
+  server = Server()
+  server.runServer()
+
+initialServer()
