@@ -13,7 +13,7 @@ class Server:
   buffSize = 1024
   
   def __init__(self):    
-    self.checkInfluxdb(self)
+    self.checkInfluxdb()
     self.soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     self.soc.bind((self.ip, self.port))
     self.soc.listen(1)
@@ -42,14 +42,14 @@ class Server:
       #print (self.connections)
   def checkInfluxdb(self):
     infdb = InfluxDBClient(host='localhost', port=8086)
-    dblist = client.get_list_database()
+    dblist = infdb.get_list_database()
     for element in dblist:
       if element.get('name',None) == 'iiot':
-        client.switch_database('iiot')
+        infdb.switch_database('iiot')
         print("iiot database existes and switched...")
       else:
-        client.create_database('iiot')
-        client.switch_database('iiot')
+        infdb.create_database('iiot')
+        infdb.switch_database('iiot')
         print("Influxdb with name iiot created...")
 
 server = Server()
