@@ -17,29 +17,41 @@ class Server:
     self.soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     self.soc.bind((self.ip, self.port))
     self.soc.listen(1)
-
+    
   def connHandle(self, conn, client):
     while True:
       data = conn.recv(self.buffSize)
       #for connection in self.connections:
       #  connection.send(bytes(data))
-      rcvTime = datetime.datetime.now()
+      tempTime = datetime.datetime.now()
       if not data:
         self.connections.remove(conn)
         conn.close()
         break
       else:
-        print((rcvTime - datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f')).total_seconds())
+        #self.rcvTime = tempTime
+        print((tempTime - datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f')).total_seconds())
 
+  def checkLatency(self):
+    while True:
+      time.sleep(3)
+      for conn in self.connections:
+        conn.send(bytes(str(datetime.datetime.now()), 'utf-8'))
+        #conn.send(bytes(str(datetime.datetime.now()), 'utf-8'))
+      
   def runServer(self):
+    thLatency = threading.Thread(target=self.checkLatency)
+    thLatency.daemon = True
+    thLatency.start()
     while True:
       conn, client = self.soc.accept()
       th = threading.Thread(target=self.connHandle, args=(conn, client))
       th.daemon = True
       th.start()
-      conn.send(bytes(str(datetime.datetime.now()), 'utf-8'))
+      #conn.send(bytes(str(datetime.datetime.now()), 'utf-8'))
       self.connections.append(conn)
       #print (self.connections)
+
   def checkInfluxdb(self):
     infdb = InfluxDBClient(host='localhost', port=8086)
     dblist = infdb.get_list_database()
