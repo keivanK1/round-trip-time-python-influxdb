@@ -12,8 +12,11 @@ class Server:
   port = 800
   connections = []
   buffSize = 1024
+
   
-  def __init__(self):    
+  def __init__(self):
+    self.infdb = InfluxDBClient(host='localhost', port=8086)
+    self.dblist = infdb.get_list_database()
     self.checkInfluxdb()
     self.soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     self.soc.bind((self.ip, self.port))
@@ -31,8 +34,13 @@ class Server:
         conn.close()
         break
       else:
+        index = self.connections.index(conn)
         #print((tempTime - datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f')).total_seconds())
-        print(str(conn) + " : " + (tempTime - self.sendTime).total_seconds())
+        latency = (tempTime - self.sendTime).total_seconds()
+        print(index , " : " , latency)
+        data = [{'client': conn,
+                'latency': latency}]
+        infdb.write_points(data)
         self.rcvTime = tempTime
 
   def checkLatency(self):
@@ -57,15 +65,13 @@ class Server:
       #print (self.connections)
 
   def checkInfluxdb(self):
-    infdb = InfluxDBClient(host='localhost', port=8086)
-    dblist = infdb.get_list_database()
-    for element in dblist:
+    for element in self.dblist:
       if element.get('name',None) == 'iiot':
-        infdb.switch_database('iiot')
+        self.infdb.switch_database('iiot')
         print("iiot database existes and switched...")
       else:
-        infdb.create_database('iiot')
-        infdb.switch_database('iiot')
+        self.infdb.create_database('iiot')
+        self.infdb.switch_database('iiot')
         print("Influxdb with name iiot created...")
 
 
