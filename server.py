@@ -87,29 +87,29 @@ class Server:
         self.infdb.switch_database('iiot')
         print("Influxdb with name iiot created...")
 
-class httpServer(BaseHTTPRequestHandler):
+# class httpServer(BaseHTTPRequestHandler):
 
-  # GET Method
-  def do_GET(self):
-    self.send_response(200)
-    self.send_header('Content-type','text/html')
-    self.end_headers()
-    message = "Hello world!"
-    # Write content as utf-8 data
-    self.wfile.write(bytes(message, "utf8"))
-    return
+#   # GET Method
+#   def do_GET(self):
+#     self.send_response(200)
+#     self.send_header('Content-type','text/html')
+#     self.end_headers()
+#     message = "Hello world!"
+#     # Write content as utf-8 data
+#     self.wfile.write(bytes(message, "utf8"))
+#     return
 
-def httpRun():
-  serverIPPort = ('0.0.0.0', 8081)
-  httpd = HTTPServer(serverIPPort, httpServer)
-  print('HTTP running server...')
-  httpd.serve_forever()
+# def httpRun():
+#   serverIPPort = ('0.0.0.0', 8081)
+#   httpd = HTTPServer(serverIPPort, httpServer)
+#   print('HTTP running server...')
+#   httpd.serve_forever()
   
 def initialServer():
-  print('starting HTTP Server...')
-  thHTTP = threading.Thread(target=httpRun)
-  thHTTP.daemon = True
-  thHTTP.start()
+  # print('starting HTTP Server...')
+  # thHTTP = threading.Thread(target=httpRun)
+  # thHTTP.daemon = True
+  # thHTTP.start()
   
   print('starting TCP Server...')
   server = Server()
