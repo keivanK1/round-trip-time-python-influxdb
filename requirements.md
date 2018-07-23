@@ -16,6 +16,7 @@
 * Install Flask
 
       sudo python3 -m pip install flask
+
 ## Getting started with Influxdb
 
     https://www.influxdata.com/blog/getting-started-python-influxdb/
