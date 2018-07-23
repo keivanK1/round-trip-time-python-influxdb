@@ -7,11 +7,13 @@ app = flask.Flask(__name__)
 infdb = InfluxDBClient(host='localhost', port=8086)
 dblist = infdb.get_list_database()
 
-def checkInfluxdb(self):
-  for element in self.dblist:
+def checkInfluxdb():  
+  for element in dblist:
+    #print(element.get('name',None))
     if element.get('name',None) == 'iiot':
-      self.infdb.switch_database('iiot')
+      infdb.switch_database('iiot')
       print("iiot database existes and switched...")
+      break
     else:
       print("There is no database named iiot...")
 
