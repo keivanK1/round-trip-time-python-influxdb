@@ -1,17 +1,17 @@
-import sys
-import json
-#print(str(input("")))
+from flask import Flask, render_template, jsonify
+from random import sample
+import flask
+
+app = flask.Flask(__name__)
+
+@app.route('/')
+def index():
+  return render_template('chart.html')
+  
+@app.route('/data')
+def data():
+  return jsonify({'results' : sample(range(1,10), 5)})
 
 
-#temp = json.loads([{'name': '_internal'}, {'name': 'pyexample'}])
-#print(temp)
-
-temp = [{'name': '_internal'}, {'name': 'pyexample'}]
-
-print(temp)
-for element in temp:
-  if element.get('name',None) == 'pyexample':
-    print("Hi")
-  #print(element.get('name',None))
-  # if element == "pyexample":
-  #   print("Hi")
+if __name__=='__main__':
+  app.run(host="0.0.0.0", port=int("80"), debug=True)

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <button id="update">update charts</button>
+    <!-- <div class="ct-chart ct-perfect-fourth"></div> -->
+    <div class="test" style="overflow: hidden">
+      <div class="ct-chart ct-golden-section" id="chart1"></div>
+      <div class="ct-chart ct-golden-section" id="chart2"></div>
+    </div>
+    <script>
+      var chart1;
+      var chart2;
+      var getData = $.get('/data');
+      getData.done(function(results){
+        var options1 = {
+          width: 1400,
+          height: 600
+        };
+        var chart1Data = {
+          labels: [1, 2, 3, 4],
+          series: [results.results]
+        }
+        chart1 = new Chartist.Line('#chart1', chart1Data, options1);
+        
+        var options2 = {
+          width: 1400,
+          height: 600
+        };
+        var chart2Data = {
+          labels: [1, 2, 3, 4],
+          series: [results.results]
+        }
+        chart2 = new Chartist.Bar('#chart2', chart2Data, options2);
+      });
+
+      function updateChart(){
+        var updateData = $.get('/data');
+        updateData.done(function(results){
+          var chart1Data = {
+            labels: [1, 2, 3, 4],
+            series: [results.results]
+          };
+          var chart2Data = {
+            labels: [1, 2, 3, 4],
+            series: [results.results]
+          };
+          chart1.update(chart1Data);
+          chart2.update(chart2Data);
+          });
+          
+      }
+
+      $("#update").on('click', updateChart);
+
+        setInterval(function() {
+          updateChart();
+        }, 5000);
+
+      </script>
+      <!-- <script>
+          var data = {
+            // A labels array that can contain any sort of values
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+            // Our series array that contains series objects or in this case series data arrays
+            series: [
+              [5, 2, 4, 2, 0]
+            ]
+          };
+          
+          // As options we currently only set a static size of 300x200 px. We can also omit this and use aspect ratio containers
+          // as you saw in the previous example
+          var options = {
+            width: 300,
+            height: 200
+          };
+          
+          // Create a new line chart object where as first parameter we pass in a selector
+          // that is resolving to our chart container element. The Second parameter
+          // is the actual data object. As a third parameter we pass in our custom options.
+          new Chartist.Line('.ct-chart', data, options);
+      </script> -->
+  </body>
+</html>
