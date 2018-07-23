@@ -45,7 +45,7 @@ class Server:
               },
               "time": datetime.datetime.now(),
               "fields": {
-                  "Float_value": latency
+                  "value": latency
               }
           }
         ]
