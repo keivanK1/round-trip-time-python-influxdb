@@ -45,7 +45,8 @@ class Server:
               },
               "time": datetime.datetime.now(),
               "fields": {
-                  "value": latency
+                  "value": latency,
+                  "client": index
               }
           }
         ]
@@ -76,12 +77,19 @@ class Server:
   def checkInfluxdb(self):
     for element in self.dblist:
       if element.get('name',None) == 'iiot':
-        self.infdb.switch_database('iiot')
-        print("iiot database existes and switched...")
-      else:
+        self.infdb.drop_database('iiot')
+        print("Old database droped...")
         self.infdb.create_database('iiot')
         self.infdb.switch_database('iiot')
-        print("Influxdb with name iiot created...")
+        return print("Old database droped, new database created and switched...")
+    self.infdb.create_database('iiot')
+    self.infdb.switch_database('iiot')
+    return print("New database created and switched...")
+      
+      # else:
+      #   self.infdb.create_database('iiot')
+      #   self.infdb.switch_database('iiot')
+      #   print("Influxdb with name iiot created...")
 
 # class httpServer(BaseHTTPRequestHandler):
 
