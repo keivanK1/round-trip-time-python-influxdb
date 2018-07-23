@@ -35,21 +35,17 @@ class Server:
       else:
         index = self.connections.index(conn)
         #print((tempTime - datetime.datetime.strptime(data.decode('utf-8'), '%Y-%m-%d %H:%M:%S.%f')).total_seconds())
-        latency = (tempTime - self.sendTime).total_seconds()
+        latency = (tempTime - self.sendTime).total_seconds() * 1000
         print(index , " : " , latency)
         json_body = [
           {
               "measurement": "latency",
               "tags": {
-                  "host": "aws",
-                  "region": "eu-central"
+                  "host": "aws"
               },
               "time": datetime.datetime.now(),
               "fields": {
-                  "Float_value": latency,
-                  "Int_value": 3,
-                  "String_value": "iiot",
-                  "Bool_value": True
+                  "Float_value": latency
               }
           }
         ]
