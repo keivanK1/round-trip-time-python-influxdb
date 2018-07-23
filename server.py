@@ -41,12 +41,11 @@ class Server:
           {
               "measurement": "latency",
               "tags": {
-                  "host": "aws"
+                  "client": index
               },
               "time": datetime.datetime.now(),
               "fields": {
-                  "value": latency,
-                  "client": index
+                  "value": latency
               }
           }
         ]

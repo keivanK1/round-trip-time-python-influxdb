@@ -26,9 +26,18 @@ def index():
 @app.route('/data')
 def data():
   if(checkdb):
-    print(infdb.query('SELECT "value" FROM "iiot"."autogen"."latency"'))
-  return jsonify({'results' : sample(range(1,10), 5)})
+    #print(infdb.query('SELECT "value" FROM "iiot"."autogen"."latency" WHERE "client"=1'))
+    #return jsonify({'results' : sample(range(1,10), 5)})
+    return jsonify({'results' : queryLatency})
+  else:
+    return print("There is no database...")
 
+def queryLatency():
+  latencyVal=[]
+  rs = infdb.query("SELECT * from latency")
+  for element in list(rs.get_points(tags={'client': '0'})):
+    latencyVal.append(element['value'])
+  return latencyVal
 
 
 if __name__=='__main__':
