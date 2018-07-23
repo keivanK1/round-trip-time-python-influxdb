@@ -32,7 +32,7 @@ $(document).ready(function() {
             }
         },
         title: {
-            text: 'Live random data'
+            text: 'Live Node Latency'
         },
         xAxis: {
             type: 'datetime',

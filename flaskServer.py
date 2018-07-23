@@ -2,7 +2,7 @@ import flask, flask.views
 from datetime import time
 from flask import render_template, make_response
 import json
-
+from random import random
 
 app = flask.Flask(__name__)
 
