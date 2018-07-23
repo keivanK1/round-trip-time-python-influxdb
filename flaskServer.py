@@ -1,6 +1,8 @@
 import flask, flask.views
 from datetime import time
-from flask import render_template
+from flask import render_template, make_response
+import json
+
 
 app = flask.Flask(__name__)
 
@@ -12,12 +14,24 @@ class View(flask.views.MethodView):
   #   values = [10,9,8,7,6,4,7,8]
   #   return render_template('index.html', values=values, labels=labels)
 
-    def get(self):
-      return flask.render_template('index.html')
-      #return "Hello World!"
+  @app.route('/')
+  def hello_world():
+    return render_template('index.html', data='test')
 
-    def post(self, request, *args, **kwargs):
-        return HttpResponse('POST request!')
+  @app.route('/live-data')
+  def live_data():
+    # Create a PHP array and echo it as JSON
+    data = [time() * 1000, random() * 100]
+    response = make_response(json.dumps(data))
+    response.content_type = 'application/json'
+    return response
+
+  # def get(self):
+  #   return flask.render_template('index.html')
+  #     #return "Hello World!"
+
+  # def post(self, request, *args, **kwargs):
+  #   return HttpResponse('POST request!')
     
 
 
