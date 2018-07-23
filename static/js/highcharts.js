@@ -48,7 +48,7 @@ $(document).ready(function() {
             }
         },
         series: [{
-            name: 'Random data',
+            name: 'Node Latency',
             data: []
         }]
     });

@@ -1,8 +1,14 @@
-import flask, flask.views
-from datetime import time
-from flask import render_template, make_response
+# import flask, flask.views
+# from datetime import time
+# from flask import render_template, make_response
+# import json
+# from random import random
+
 import json
+from time import time
 from random import random
+from flask import Flask, render_template, make_response
+import flask.views
 
 app = flask.Flask(__name__)
 
