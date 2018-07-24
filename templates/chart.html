@@ -16,42 +16,64 @@
       var chart1;
       var chart2;
       var getData = $.get('/data');
+      var getChart = $.get('/chart');
       getData.done(function(results){
         var options1 = {
           width: 1400,
           height: 600
         };
         var chart1Data = {
-          labels: [1, 2, 3, 4],
+          //labels: [1, 2, 3, 4],
           series: [results.results]
         }
         chart1 = new Chartist.Line('#chart1', chart1Data, options1);
         
+        //var options2 = {
+        //  width: 1400,
+        //  height: 600
+        //};
+        //var chart2Data = {
+        //  //labels: [0],
+        //  series: [results.results]
+        //}
+        //chart2 = new Chartist.Line('#chart2', chart2Data, options2);
+      });
+
+      getChart.done(function(results){
         var options2 = {
           width: 1400,
           height: 600
         };
         var chart2Data = {
-          labels: [1, 2, 3, 4],
+          //labels: [0],
           series: [results.results]
         }
         chart2 = new Chartist.Line('#chart2', chart2Data, options2);
       });
+      
 
       function updateChart(){
         var updateData = $.get('/data');
+        var updateChart = $.get('/chart');
         updateData.done(function(results){
           var chart1Data = {
-            labels: [1, 2, 3, 4],
+            //labels: [1, 2, 3, 4],
             series: [results.results]
           };
-          var chart2Data = {
-            labels: [1, 2, 3, 4],
-            series: [results.results]
-          };
+          //var chart2Data = {
+          //  //labels: [1, 2, 3, 4],
+          //  series: [results.results]
+          //};
           chart1.update(chart1Data);
+          //chart2.update(chart2Data);
+        });
+        updateChart.done(function(results){
+          var chart2Data = {
+            //labels: [1, 2, 3, 4],
+            series: [results.results]
+          };
           chart2.update(chart2Data);
-          });
+        });
           
       }
 
@@ -59,7 +81,7 @@
 
         setInterval(function() {
           updateChart();
-        }, 5000);
+        }, 3000);
 
       </script>
       <!-- <script>

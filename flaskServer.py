@@ -23,19 +23,28 @@ def checkInfluxdb():
 def index():
   return render_template('chart.html')
   
+@app.route('/chart')
+def chart():
+  if(checkdb):
+    #print(infdb.query('SELECT "value" FROM "iiot"."autogen"."latency" WHERE "client"=1'))
+    #return jsonify({'results' : sample(range(1,10), 5)})
+    return jsonify({'results' : queryLatency('1')})
+  else:
+    return print("There is no database...")
+
 @app.route('/data')
 def data():
   if(checkdb):
     #print(infdb.query('SELECT "value" FROM "iiot"."autogen"."latency" WHERE "client"=1'))
     #return jsonify({'results' : sample(range(1,10), 5)})
-    return jsonify({'results' : queryLatency()})
+    return jsonify({'results' : queryLatency('0')})
   else:
     return print("There is no database...")
 
-def queryLatency():
+def queryLatency(client):
   latencyVal=[]
   rs = infdb.query("SELECT * from latency")
-  for element in list(rs.get_points(tags={'client': '0'})):
+  for element in list(rs.get_points(tags={'client': client})):
     latencyVal.append(element['value'])
   return latencyVal
 
