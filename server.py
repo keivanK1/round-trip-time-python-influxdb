@@ -108,7 +108,9 @@ class Server:
 #   httpd = HTTPServer(serverIPPort, httpServer)
 #   print('HTTP running server...')
 #   httpd.serve_forever()
-  
+def flaskRun():
+  os.system("sudo python3 flaskServer.py")
+
 def initialServer():
   # print('starting HTTP Server...')
   # thHTTP = threading.Thread(target=httpRun)
@@ -117,7 +119,9 @@ def initialServer():
   
   print('starting TCP Server...')
   server = Server()
-  os.system("sudo python3 flaskServer.py")
+  thFlask = threading.Thread(target=httpRun)
+  thFlask.daemon = True
+  thFlask.start()
   print('Flask server is running...')
   server.runServer()
 
