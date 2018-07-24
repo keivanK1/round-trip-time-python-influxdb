@@ -4,6 +4,7 @@ import time
 import datetime
 from influxdb import InfluxDBClient
 import json
+import os
 #from http.server import BaseHTTPRequestHandler, HTTPServer
 
 class Server:
@@ -116,6 +117,8 @@ def initialServer():
   
   print('starting TCP Server...')
   server = Server()
+  os.system("sudo python3 flaskServer.py")
+  print('Flask server is running...')
   server.runServer()
 
 initialServer()

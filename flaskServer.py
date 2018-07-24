@@ -28,7 +28,7 @@ def data():
   if(checkdb):
     #print(infdb.query('SELECT "value" FROM "iiot"."autogen"."latency" WHERE "client"=1'))
     #return jsonify({'results' : sample(range(1,10), 5)})
-    return jsonify({'results' : queryLatency})
+    return jsonify({'results' : queryLatency()})
   else:
     return print("There is no database...")
 
