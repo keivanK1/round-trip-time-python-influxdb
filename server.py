@@ -119,7 +119,7 @@ def initialServer():
   
   print('starting TCP Server...')
   server = Server()
-  thFlask = threading.Thread(target=httpRun)
+  thFlask = threading.Thread(target=flaskRun)
   thFlask.daemon = True
   thFlask.start()
   print('Flask server is running...')
