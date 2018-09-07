@@ -5,7 +5,7 @@ RTT is.
 ![RTT](https://www.globaldots.com/wordpress/wp-content/uploads/2013/10/rtt_wikimedia.png)
 
 There are 2 servers running namely TCP server and Flask server. TCP server will send a byte to the client, timestamp it and waits to get it back from client
-and timestamp it again. The different between these two timestamps would be the round trip time. This value would be saved on influxdb and Flask server can access it and show them on graphs.
+and timestamp it again. The difference between these two timestamps would be the round trip time. This value would be saved on influxdb and Flask server can access it and show them on graphs.
 The graphs will be updated every 3 seconds.
 
 ## Requirements
